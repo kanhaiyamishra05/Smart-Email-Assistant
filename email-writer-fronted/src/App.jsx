@@ -13,7 +13,7 @@ function App() {
   async function handleSubmit() {
     setLoading(true);
     try {
-      const response = await axios.post("https://smart-email-assistant-lps7.onrender.com/api/email/generate",{
+      const response = await axios.post(" https://smart-email-assistant-zprh.onrender.com/api/email/generate",{
         emailContent,
         tone
       });
