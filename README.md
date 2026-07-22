@@ -108,12 +108,12 @@ gemini.api.key=YOUR_GEMINI_API_KEY
 ```
 
 ## 📸 Screenshots
-  ## Email uiux
-<img width="1497" height="799" alt="Screenshot 2026-05-03 045232" src="https://github.com/user-attachments/assets/3902f304-e45c-4875-937e-c75fa262f6fc" />
-<img width="1771" height="799" alt="Screenshot 2026-05-03 045248" src="https://github.com/user-attachments/assets/5aade1eb-9817-452d-a693-8825990600c1" />
-  ## Fronted
-  <img width="1920" height="1080" alt="Screenshot 2026-05-03 045641" src="https://github.com/user-attachments/assets/0e58a033-a46b-4847-83a7-06546a047ad7" />
-  <img width="1920" height="1080" alt="Screenshot 2026-05-03 045713" src="https://github.com/user-attachments/assets/c58765b3-a657-465f-9f88-6c66c31152b4" />
+
+### Gmail Extension Integration
+![Gmail Extension Integration](screenshots/extension_gmail.jpg)
+
+### Playground UI Dashboard
+![Playground UI Dashboard](screenshots/playground_preview.jpg)
 
 
 
