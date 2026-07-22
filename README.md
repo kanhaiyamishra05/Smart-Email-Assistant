@@ -157,10 +157,6 @@ Open [http://localhost:5173/](http://localhost:5173/) to view the app.
 * GitHub: [https://github.com/kanhaiyamishra05](https://github.com/kanhaiyamishra05)
 * LinkedIn: https://www.linkedin.com/in/kanhaiya-kumar5/
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
 ---
 
 If you found this project useful, consider giving it a ⭐ on GitHub!
