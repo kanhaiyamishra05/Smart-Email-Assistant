@@ -13,10 +13,11 @@ import {
   Tabs,
   Tab,
   Snackbar,
-  Alert
+  Alert,
+  Divider
 } from '@mui/material';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
@@ -36,6 +37,7 @@ const CheckIcon = () => (
 );
 
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
   const [emailContent, setEmailContent] = useState('');
   const [tone, setTone] = useState('');
@@ -43,6 +45,12 @@ function App() {
   const [generatedReply, setGeneratedReply] = useState('');
   const [copied, setCopied] = useState(false);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
+
+  // Update body background color when theme changes
+  useEffect(() => {
+    document.body.style.backgroundColor = isDarkMode ? '#09090b' : '#f4f4f5';
+    document.body.style.color = isDarkMode ? '#f4f4f5' : '#09090b';
+  }, [isDarkMode]);
 
   async function handleSubmit() {
     setLoading(true);
@@ -76,39 +84,70 @@ function App() {
     <Container maxWidth="md" sx={{ py: 6, display: 'flex', flexDirection: 'column', minHeight: '100vh', justifyContent: 'center' }}>
       
       {/* Header/Navbar */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4, pb: 2, borderBottom: '1px solid #27272a' }}>
-        <Typography variant="h6" sx={{ fontFamily: 'Outfit', fontWeight: 700, color: '#f4f4f5', letterSpacing: '-0.5px' }}>
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        mb: 4, 
+        pb: 2, 
+        borderBottom: `1px solid ${isDarkMode ? '#27272a' : '#e4e4e7'}` 
+      }}>
+        <Typography variant="h6" sx={{ fontFamily: 'Outfit', fontWeight: 700, color: isDarkMode ? '#f4f4f5' : '#09090b', letterSpacing: '-0.5px' }}>
           Smart Email Assistant
         </Typography>
         
-        <Tabs 
-          value={activeTab} 
-          onChange={(e, val) => setActiveTab(val)}
-          textColor="inherit"
-          sx={{
-            '& .MuiTabs-indicator': { backgroundColor: '#3f3f46' },
-            '& .MuiTab-root': { 
-              textTransform: 'none', 
-              fontWeight: 500, 
-              color: '#a1a1aa',
-              fontSize: '0.9rem',
-              minWidth: 'auto',
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Tabs 
+            value={activeTab} 
+            onChange={(e, val) => setActiveTab(val)}
+            textColor="inherit"
+            sx={{
+              '& .MuiTabs-indicator': { backgroundColor: isDarkMode ? '#f4f4f5' : '#09090b' },
+              '& .MuiTab-root': { 
+                textTransform: 'none', 
+                fontWeight: 500, 
+                color: isDarkMode ? '#a1a1aa' : '#71717a',
+                fontSize: '0.9rem',
+                minWidth: 'auto',
+                px: 2,
+                '&.Mui-selected': { color: isDarkMode ? '#f4f4f5' : '#09090b' }
+              }
+            }}
+          >
+            <Tab label="Playground" />
+            <Tab label="Extension Guide" />
+          </Tabs>
+
+          <Button 
+            size="small"
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            sx={{
+              textTransform: 'none',
+              fontWeight: 500,
+              color: isDarkMode ? '#a1a1aa' : '#71717a',
+              borderColor: isDarkMode ? '#27272a' : '#e4e4e7',
+              border: '1px solid',
+              borderRadius: '8px',
               px: 2,
-              '&.Mui-selected': { color: '#f4f4f5' }
-            }
-          }}
-        >
-          <Tab label="Playground" />
-          <Tab label="Extension Guide" />
-        </Tabs>
+              '&:hover': {
+                color: isDarkMode ? '#f4f4f5' : '#09090b',
+                backgroundColor: isDarkMode ? '#27272a' : '#e4e4e7',
+                borderColor: isDarkMode ? '#3f3f46' : '#d4d4d8',
+              }
+            }}
+          >
+            {isDarkMode ? "☀️ Light" : "🌙 Dark"}
+          </Button>
+        </Box>
       </Box>
 
       {/* Main Container */}
       <Paper elevation={0} sx={{ 
         p: { xs: 3, md: 5 }, 
         borderRadius: '12px', 
-        backgroundColor: '#18181b', 
-        border: '1px solid #27272a'
+        backgroundColor: isDarkMode ? '#18181b' : '#ffffff', 
+        border: `1px solid ${isDarkMode ? '#27272a' : '#e4e4e7'}`,
+        boxShadow: isDarkMode ? 'none' : '0 4px 12px rgba(0,0,0,0.05)'
       }}>
         
         {activeTab === 0 ? (
@@ -116,10 +155,10 @@ function App() {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             
             <Box>
-              <Typography variant="h5" sx={{ fontFamily: 'Outfit', fontWeight: 600, color: '#f4f4f5', mb: 1 }}>
+              <Typography variant="h5" sx={{ fontFamily: 'Outfit', fontWeight: 600, color: isDarkMode ? '#f4f4f5' : '#09090b', mb: 1 }}>
                 Email Generator
               </Typography>
-              <Typography variant="body2" sx={{ color: '#a1a1aa' }}>
+              <Typography variant="body2" sx={{ color: isDarkMode ? '#a1a1aa' : '#71717a' }}>
                 Paste the email content below and choose a reply tone.
               </Typography>
             </Box>
@@ -135,44 +174,44 @@ function App() {
               onChange={(e) => setEmailContent(e.target.value)}
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  color: '#f4f4f5',
+                  color: isDarkMode ? '#f4f4f5' : '#09090b',
                   borderRadius: '8px',
-                  backgroundColor: '#09090b',
-                  '& fieldset': { borderColor: '#27272a' },
-                  '&:hover fieldset': { borderColor: '#3f3f46' },
-                  '&.Mui-focused fieldset': { borderColor: '#52525b' },
+                  backgroundColor: isDarkMode ? '#09090b' : '#f4f4f5',
+                  '& fieldset': { borderColor: isDarkMode ? '#27272a' : '#e4e4e7' },
+                  '&:hover fieldset': { borderColor: isDarkMode ? '#3f3f46' : '#d4d4d8' },
+                  '&.Mui-focused fieldset': { borderColor: isDarkMode ? '#52525b' : '#a1a1aa' },
                 },
-                '& .MuiInputLabel-root': { color: '#71717a' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#a1a1aa' },
+                '& .MuiInputLabel-root': { color: isDarkMode ? '#71717a' : '#a1a1aa' },
+                '& .MuiInputLabel-root.Mui-focused': { color: isDarkMode ? '#a1a1aa' : '#71717a' },
               }}
             />
 
             <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
               <FormControl sx={{ minWidth: 200, flexGrow: { xs: 1, sm: 0 } }}>
-                <InputLabel id="tone-select-label" sx={{ color: '#71717a', '&.Mui-focused': { color: '#a1a1aa' } }}>Tone (Optional)</InputLabel>
+                <InputLabel id="tone-select-label" sx={{ color: isDarkMode ? '#71717a' : '#a1a1aa', '&.Mui-focused': { color: isDarkMode ? '#a1a1aa' : '#71717a' } }}>Tone (Optional)</InputLabel>
                 <Select
                   labelId="tone-select-label"
                   value={tone}
                   label="Tone (Optional)"
                   onChange={(e) => setTone(e.target.value)}
                   sx={{
-                    color: '#f4f4f5',
+                    color: isDarkMode ? '#f4f4f5' : '#09090b',
                     borderRadius: '8px',
-                    backgroundColor: '#09090b',
-                    '& .MuiOutlinedInput-notchedOutline': { borderColor: '#27272a' },
-                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#3f3f46' },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#52525b' },
+                    backgroundColor: isDarkMode ? '#09090b' : '#f4f4f5',
+                    '& .MuiOutlinedInput-notchedOutline': { borderColor: isDarkMode ? '#27272a' : '#e4e4e7' },
+                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: isDarkMode ? '#3f3f46' : '#d4d4d8' },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: isDarkMode ? '#52525b' : '#a1a1aa' },
                   }}
                   MenuProps={{
                     PaperProps: {
                       sx: {
-                        bgcolor: '#18181b',
-                        border: '1px solid #27272a',
+                        bgcolor: isDarkMode ? '#18181b' : '#ffffff',
+                        border: `1px solid ${isDarkMode ? '#27272a' : '#e4e4e7'}`,
                         borderRadius: '8px',
                         '& .MuiMenuItem-root': {
-                          color: '#e4e4e7',
-                          '&:hover': { bgcolor: '#27272a' },
-                          '&.Mui-selected': { bgcolor: '#3f3f46' },
+                          color: isDarkMode ? '#e4e4e7' : '#09090b',
+                          '&:hover': { bgcolor: isDarkMode ? '#27272a' : '#f4f4f5' },
+                          '&.Mui-selected': { bgcolor: isDarkMode ? '#3f3f46' : '#e4e4e7' },
                         }
                       }
                     }
@@ -195,28 +234,28 @@ function App() {
                   borderRadius: '8px',
                   fontWeight: 600,
                   textTransform: 'none',
-                  backgroundColor: '#f4f4f5',
-                  color: '#09090b',
+                  backgroundColor: isDarkMode ? '#f4f4f5' : '#09090b',
+                  color: isDarkMode ? '#09090b' : '#f4f4f5',
                   '&:hover': {
-                    backgroundColor: '#e4e4e7',
+                    backgroundColor: isDarkMode ? '#e4e4e7' : '#18181b',
                   },
                   '&:disabled': {
-                    backgroundColor: '#27272a',
-                    color: '#52525b',
+                    backgroundColor: isDarkMode ? '#27272a' : '#e4e4e7',
+                    color: isDarkMode ? '#52525b' : '#a1a1aa',
                   }
                 }}
               >
-                {loading ? <CircularProgress size={22} sx={{ color: '#09090b' }} /> : "Generate Reply"}
+                {loading ? <CircularProgress size={22} sx={{ color: isDarkMode ? '#09090b' : '#f4f4f5' }} /> : "Generate Reply"}
               </Button>
             </Box>
 
             {/* Generated Reply Area */}
             {generatedReply && (
               <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                <Divider sx={{ borderColor: '#27272a', my: 1 }} />
+                <Divider sx={{ borderColor: isDarkMode ? '#27272a' : '#e4e4e7', my: 1 }} />
                 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography variant="subtitle2" sx={{ color: '#a1a1aa', fontWeight: 600 }}>
+                  <Typography variant="subtitle2" sx={{ color: isDarkMode ? '#a1a1aa' : '#71717a', fontWeight: 600 }}>
                     AI Generated Response:
                   </Typography>
                   
@@ -227,8 +266,8 @@ function App() {
                     startIcon={copied ? <CheckIcon /> : <CopyIcon />}
                     sx={{
                       textTransform: 'none',
-                      color: copied ? '#4ade80' : '#a1a1aa',
-                      '&:hover': { color: '#f4f4f5' }
+                      color: copied ? '#4ade80' : (isDarkMode ? '#a1a1aa' : '#71717a'),
+                      '&:hover': { color: isDarkMode ? '#f4f4f5' : '#09090b' }
                     }}
                   >
                     {copied ? "Copied" : "Copy to Clipboard"}
@@ -248,10 +287,10 @@ function App() {
                   }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      color: '#f4f4f5',
+                      color: isDarkMode ? '#f4f4f5' : '#09090b',
                       borderRadius: '8px',
-                      backgroundColor: '#09090b',
-                      '& fieldset': { borderColor: '#27272a' },
+                      backgroundColor: isDarkMode ? '#09090b' : '#f4f4f5',
+                      '& fieldset': { borderColor: isDarkMode ? '#27272a' : '#e4e4e7' },
                     }
                   }}
                 />
@@ -263,10 +302,10 @@ function App() {
           /* EXTENSION GUIDE TAB */
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3.5 }}>
             <Box>
-              <Typography variant="h5" sx={{ fontFamily: 'Outfit', fontWeight: 600, color: '#f4f4f5', mb: 1 }}>
+              <Typography variant="h5" sx={{ fontFamily: 'Outfit', fontWeight: 600, color: isDarkMode ? '#f4f4f5' : '#09090b', mb: 1 }}>
                 Chrome Extension Installation
               </Typography>
-              <Typography variant="body2" sx={{ color: '#a1a1aa' }}>
+              <Typography variant="body2" sx={{ color: isDarkMode ? '#a1a1aa' : '#71717a' }}>
                 Follow these simple steps to load the assistant directly into Gmail.
               </Typography>
             </Box>
@@ -294,14 +333,14 @@ function App() {
                   desc: "Open Gmail and click on Compose or Reply. You will see a new 'AI Reply' button next to the Send button." 
                 }
               ].map((item, idx) => (
-                <Box key={idx} sx={{ pb: idx !== 3 ? 2 : 0, borderBottom: idx !== 3 ? '1px solid #27272a' : 'none' }}>
-                  <Typography variant="caption" sx={{ color: '#71717a', fontWeight: 700, textTransform: 'uppercase' }}>
+                <Box key={idx} sx={{ pb: idx !== 3 ? 2 : 0, borderBottom: idx !== 3 ? `1px solid ${isDarkMode ? '#27272a' : '#e4e4e7'}` : 'none' }}>
+                  <Typography variant="caption" sx={{ color: isDarkMode ? '#71717a' : '#a1a1aa', fontWeight: 700, textTransform: 'uppercase' }}>
                     {item.step}
                   </Typography>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#e4e4e7', mt: 0.5, mb: 0.5 }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 600, color: isDarkMode ? '#e4e4e7' : '#27272a', mt: 0.5, mb: 0.5 }}>
                     {item.title}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: '#a1a1aa', lineHeight: 1.6 }}>
+                  <Typography variant="body2" sx={{ color: isDarkMode ? '#a1a1aa' : '#71717a', lineHeight: 1.6 }}>
                     {item.desc}
                   </Typography>
                 </Box>
@@ -314,7 +353,7 @@ function App() {
 
       {/* Footer */}
       <Box sx={{ mt: 4, textAlign: 'center' }}>
-        <Typography variant="caption" sx={{ color: '#52525b' }}>
+        <Typography variant="caption" sx={{ color: isDarkMode ? '#52525b' : '#a1a1aa' }}>
           Smart Email Assistant • Designed with simplicity
         </Typography>
       </Box>
