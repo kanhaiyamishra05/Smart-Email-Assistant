@@ -4,7 +4,10 @@ An AI-powered Smart Email Assistant that generates intelligent, context-aware em
 
 ## 🔗 Live Frontend Preview
 
-* Frontend Application: [http://localhost:5173/](http://localhost:5173/) Built using Spring Boot, React, Google's Gemini API, and a Chrome Extension.
+* Frontend Application: [https://smartmail-ai-app.vercel.app/](https://smartmail-ai-app.vercel.app/)
+* Backend API: [https://smart-email-assistant-tc1m.onrender.com/](https://smart-email-assistant-tc1m.onrender.com/)
+
+Built using Spring Boot, React, Google's Gemini API, and a Chrome Extension.
 
 ## 🌟 Features
 
