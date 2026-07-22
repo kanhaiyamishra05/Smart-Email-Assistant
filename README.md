@@ -16,7 +16,9 @@ Built using Spring Boot, React, Google's Gemini API, and a Chrome Extension.
 * Seamless Gmail integration via Chrome Extension
 * One-click reply insertion into Gmail compose window
 * Copy generated replies to clipboard
-* Responsive and modern user interface
+* Dual Theme Support: Minimalist Dark and Light mode toggle
+* Clean 2-tab layout (Interactive Playground & Chrome Extension Guide)
+* Responsive and modern minimalist Zinc UI design
 
 ## 🛠️ Tech Stack
 
@@ -70,42 +72,58 @@ Smart-Email-Assistant/
 
 ### Prerequisites
 
-* Java 17+
+* Java 17+ (or JDK 21)
 * Node.js 18+
 * Maven
 * Google Chrome
 * Gemini API Key
 
-### Backend Setup
+### 🔐 Environment Configuration
 
+The backend is configured to read your Gemini API configurations dynamically from environment variables to prevent credentials leak:
+```properties
+gemini.api.url=${GEMINI_API_URL:https://generativelanguage.googleapis.com}
+gemini.api.key=${GEMINI_API_KEY:default_placeholder}
+```
+
+Before running, configure the environment variables in your terminal:
+* **Windows (PowerShell)**:
+  ```powershell
+  $env:GEMINI_API_KEY="your_api_key_here"
+  $env:GEMINI_API_URL="https://generativelanguage.googleapis.com"
+  ```
+* **macOS/Linux**:
+  ```bash
+  export GEMINI_API_KEY="your_api_key_here"
+  export GEMINI_API_URL="https://generativelanguage.googleapis.com"
+  ```
+
+---
+
+### 🏗️ Running the Project
+
+#### 1. Backend Setup (Spring Boot)
+Ensure you have set the environment variables in the terminal, then run:
 ```bash
 cd email-writer-sb/email-writer-sb
 ./mvnw spring-boot:run
 ```
 
-### Frontend Setup
-
+#### 2. Frontend Setup (React + Vite)
+Configure your `.env` (or let it fall back to localhost automatically) and run:
 ```bash
 cd email-writer-fronted
 npm install
 npm run dev
 ```
+Open [http://localhost:5173/](http://localhost:5173/) to view the app.
 
-### Chrome Extension Setup
-
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable **Developer Mode**
-3. Click **Load unpacked**
-4. Select the `Email-Writer-Ext` folder
-
-## 🔐 Environment Configuration
-
-Add your Gemini API key in `application.properties`:
-
-```properties
-gemini.api.url=YOUR_GEMINI_API_URL
-gemini.api.key=YOUR_GEMINI_API_KEY
-```
+#### 3. Chrome Extension Setup
+1. Open Google Chrome and navigate to `chrome://extensions/`
+2. Enable **Developer Mode** (top-right corner).
+3. Click **Load unpacked** (top-left corner).
+4. Select the `Email-Writer-Ext` folder from this project directory.
+5. Open Gmail, compose an email, and click the **AI Reply** button!
 
 ## 📸 Screenshots
 
