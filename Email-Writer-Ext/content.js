@@ -6,15 +6,14 @@ function getEmailContent(){
         '.a3s.aiL',
         '.gmail_quote',
         '[role="presentation"]'
-
     ];
     for(const selector of selectors){
         const content=document.querySelector(selector);
         if(content){
             return content.innerText.trim();
         }
-        return '';
     }
+    return '';
 }
 
 function findComposeToolbar(){
@@ -24,8 +23,8 @@ function findComposeToolbar(){
         if(toolbar){
             return toolbar;
         }
-        return null;
     }
+    return null;
 }
 
 function createAIButton(){
@@ -52,7 +51,7 @@ function injectButton(){
 
     console.log("toolbar found");
     const button=createAIButton();
-    button.classList.add('.ai-reply-button');
+    button.classList.add('ai-reply-button');
 
     button.addEventListener('click', async() =>{
         try {
